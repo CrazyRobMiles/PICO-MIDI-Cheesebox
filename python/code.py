@@ -1,4 +1,4 @@
-# MIDI CheeseBox Version 1.0
+# MIDI CheeseBox Version 1.1
 # 2021 Rob Miles: www.robmiles.com
 # https://github.com/CrazyRobMiles/PICO-MIDI-Cheesebox
 # Have fun

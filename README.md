@@ -2,10 +2,60 @@
 
 Designs and software for a MIDI controller described in issue 48 of Hackspace magazine.
 
-![Cheesebox device with a box of cheese](images/cheesebox.jpg)
+[![YouTube Screenshot](images/video.jpg)](https://youtu.be/ojN6h7QUoZ8)
+To find out more about this amazing device click on the image above to see a short video.
+## Building a box
+The parts you'll need are as follows:
 
+* A Raspberry Pi PICO
+* A 12 pixel WS2812 pixel ring (search for " WS2812 ring 12") 
+* 12 coloured push buttons. Ideally 8 white buttons for the notes and a red, green, blue and yellow button for the controls. The buttons should be non-locking, push to make.
+* A micro-USB cable to link the PICO to the host
+* Connecting wire. I used coloured wire wrap (search for "30 AWG wire wrap") which needed a wire wrap tool (search for "wire wrap tool"). I also used a fair amount of heat shrink tubing.
+* A Raspberry Pi or machine running Windows, MacOS or Linux running PureData to make the sounds.
+* A box. There is a 3D printable design, or you can just drill some holes for the lights and buttons in a cheese box and stick the pixel ring and PICO inside it.
+* Screws. You'll need some screws side M2 4mm in length to fix the pixel ring and PICO to the case (search for "laptop screws").
+
+![Circuit diagram](images/circuit.png)
+
+Each button is assigned its own pin on the PICO. If you use the connections show above you can use the software as supplied. If you use different connections you'll need to modify the code.
+```
+notes = (
+    Note(pin=board.GP6,pixel=11,num=0),
+    Note(pin=board.GP5,pixel=10,num=1),
+    Note(pin=board.GP4,pixel=9,num=2),
+    Note(pin=board.GP3,pixel=8,num=3),
+    Note(pin=board.GP2,pixel=7,num=4),
+    Note(pin=board.GP1,pixel=6,num=5),
+    Note(pin=board.GP12,pixel=5,num=6),
+    Note(pin=board.GP11,pixel=4,num=7)
+    )
+
+selects = (
+    Select(pin=board.GP7,pixel=0,col=Col.RED),
+    Select(pin=board.GP8,pixel=1,col=Col.GREEN),
+    Select(pin=board.GP9,pixel=2,col=Col.BLUE),
+    Select(pin=board.GP10,pixel=3,col=Col.YELLOW)
+            )
+```
+These are the pin assignments in the software. You can use this code to tell you what connections to make when you are building the device. This code can be found in the source file code.py in the python folder in this repository. 
+## Making a box
+![case design](images/box.png)
+There are 3D printable case designs in the case folder in the repository.
+## Installing the software
+The software as supplied uses Circuit Python Version 6. You can find the uf2 Python image and a lib folder to copy onto your device in the python folder in this repository. To configure a device do the following:
+
+1. Hold down the Bootsel button on your Pico. 
+
+2. Plug the Pico into your PC. It will connect to your PC as a storage device. 
+
+3. Drag the file adafruit-circuitpython-raspberry_pi_pico-en_GB-6.3.0.uf2 from the python folder in this repository onto the PICO storage device. Once the file has been copied the PICO will reboot as another storage device which contains the Circuit Python system. 
+4. Copy the contents of the python/lib folder in this repository into the lib folder on the PICO device. 
+5. Copy the file code.py from the python folder into the PICO at the top level (i.e. alongside the wifi and wifi_log files). This program will run when the MIDI Cheesebox is powered on.
+
+When you power up your cheesebox you will see that the led next to the red button is lit red and the leds next to the eight white buttons are lit white. 
 ## Connecting a CheeseBox to Pure Data using MIDI
-You can use the PICO MIDI CheeseBox with any MIDI device. If you want to use it with Pure Data you can do the following: 
+You can use the PICO MIDI CheeseBox with any MIDI device. If you want to use it with Pure Data you can do the following:  
 
 Start by plugging your CheeseBox into your computer. You must do this before you start Pure Data. Now start Pure Data running and open the MIDI preferences dialogue using the menu **File>Preferences>MIDI** option shown below. 
 
@@ -107,8 +157,6 @@ In Euclidean mode the Cheesebox calculates a note number by adding up all the no
 This setting determines the length of the sequence. By default it is set at 1, which means that the sequence is repeated across the lights. Adding more bars increases the length of the sequence in pages of 8 steps. The four coloured lights above the notes display show the current bar number as a sequence is played. If you set a pattern length value (see setting 4) this determines the length of the final bar of the sequence. By using a combination of bar count and pattern length you can create sequences of 2-32 steps.
 ## Pure Data
 The patches for the sound generator are in the patches folder. Copy the entire folder onto your computer and then open the CheeseBox patch. The other files are used by this patch.
-## Construction
-The circuit folder contains a circuit diagram for the cheesebox. The case folder contains STL files for printing the top and bottom of the case. 
 
 Have fun
 
