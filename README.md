@@ -1,10 +1,15 @@
 # PICO-MIDI-Cheesebox
-
-Designs and software for a MIDI controller described in issue 48 of Hackspace magazine.
-
+![Circuit diagram](images/cheesebox.jpg)
+Designs and software for a MIDI controller described in issue 48 of Hackspace magazine and issue 113 of MagPi magazine.
+## Videos
 [![YouTube Screenshot](images/video.jpg)](https://youtu.be/ojN6h7QUoZ8)
-To find out more about this amazing device click on the image above to see a short video.
-## Building a box
+
+To find out more about the device click on the image above to see a short video.
+
+[![YouTube Screenshot](images/video2.jpg)](https://youtu.be/zAFZJPzWo54)
+
+This video describes the cheesebox and how it works, along with the Crackers Controller and Pure Data. It was delivered at the [DDD conference in November 2021](https://www.youtube.com/channel/UCJH7bvJ_zCX4VDWGg16e20w)
+## Building the device
 The parts you'll need are as follows:
 
 * A Raspberry Pi PICO
