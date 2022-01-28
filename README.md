@@ -48,13 +48,13 @@ These are the pin assignments in the software. You can use this code to tell you
 ![case design](images/box.png)
 There are 3D printable case designs in the case folder in the repository.
 ## Installing the software
-The software as supplied uses Circuit Python Version 6. You can find the uf2 Python image and a lib folder to copy onto your device in the python folder in this repository. To configure a device do the following:
+The software as supplied uses Circuit Python Version 7. You can find the uf2 Python image and a lib folder to copy onto your device in the python folder in this repository. To configure a device do the following:
 
 1. Hold down the Bootsel button on your Pico. 
 
 2. Plug the Pico into your PC. It will connect to your PC as a storage device. 
 
-3. Drag the file adafruit-circuitpython-raspberry_pi_pico-en_GB-6.3.0.uf2 from the python folder in this repository onto the PICO storage device. Once the file has been copied the PICO will reboot as another storage device which contains the Circuit Python system. 
+3. Drag the file adafruit-circuitpython-raspberry_pi_pico-en_GB-7.0.0.uf2 from the python folder in this repository onto the PICO storage device. Once the file has been copied the PICO will reboot as another storage device which contains the Circuit Python system. 
 4. Copy the contents of the python/lib folder in this repository into the lib folder on the PICO device. 
 5. Copy the file code.py from the python folder into the PICO at the top level (i.e. alongside the wifi and wifi_log files). This program will run when the MIDI Cheesebox is powered on.
 
