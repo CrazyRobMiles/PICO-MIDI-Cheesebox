@@ -297,6 +297,13 @@ class Rhythm(Voice):
     
     def __init__(self,client,col,chan):
         super(Rhythm,self).__init__(client,col,chan)
+        self.base = 45
+        self.note_volume = 120
+        self.start_sequence = False
+        self.stop_sequence = False
+        self.sequencing = False
+        self.sequence_pos=0
+        self.factor=0
         self.track = []
         for i in range(1,33):
             id="s"+str(i)
@@ -312,10 +319,8 @@ class Rhythm(Voice):
             Setting("func",Col.values, Rhythm.func,0),   #6
             Setting("loops",Col.values, Rhythm.loops,0)   #7
             )
+        self.settings[Rhythm.set_midi].set_from_value(self.chan)
         self.run_changed(self.settings[Rhythm.set_run])
-        self.need_redraw = False
-        self.last_note = -1
-        self.reset()
     
     def run_changed(self,setting):
         if setting.get_value()==True:
@@ -377,12 +382,6 @@ class Rhythm(Voice):
         for step in self.track:
             step.reset()
         self.settings[Rhythm.set_midi].set_from_value(self.init_chan)
-        self.note_volume = 120
-        self.start_sequence = False
-        self.stop_sequence = False
-        self.sequencing = True
-        self.sequence_pos=0
-        self.factor=0
         
     def update(self):
         
@@ -473,7 +472,8 @@ class MidiBox():
         if self.no_of_notes_pressed != 0:
             return
         if self.no_of_selects_pressed == 3:
-            self.reset()
+            for sound in self.sounds:
+                sound.reset()
         if self.settings_active:
             return
         if select.col != self.target.col:
@@ -504,20 +504,6 @@ class MidiBox():
                 self.target = sound
                 sound.draw_background()
                 
-    def reset(self):
-        for sound in self.sounds:
-            sound.reset()
-        self.settings_active = False
-        self.select_voice(self.sounds[0].col)
-        self.select_pixel = self.selects[0].pixel
-        self.pixels.show()
-        self.reset_time = False
-        self.time = time.monotonic()
-        self.euclid_played = False
-        self.no_of_notes_pressed = 0
-        self.no_of_selects_pressed = 0
-        self.note_volume = 120
-       
     def __init__(self):
         self.notes = (
             Note(self,pin=board.GP6,pixel=11,num=0),
@@ -543,13 +529,23 @@ class MidiBox():
             Rhythm(self,Col.BLUE,2),
             Rhythm(self,Col.YELLOW,3)
             )
-        print("MidiBox CheeseBox 2.0 starting")
+        print("MidiBox CheeseBox 2.1 starting")
         print("Memory free:",gc.mem_free())
+        self.note_volume = 120
         self.midi = adafruit_midi.MIDI(midi_out=usb_midi.ports[1], out_channel=0)
         self.buttons = self.notes + self.selects
         self.pixels = neopixel.NeoPixel(board.GP0,len(self.buttons),auto_write=False)
         self.pixels.brightness = 0.5
-        self.reset()
+        self.settings_active=False
+        self.settings_active = False
+        self.select_voice(self.sounds[0].col)
+        self.select_pixel = self.selects[0].pixel
+        self.pixels.show()
+        self.reset_time = False
+        self.time = time.monotonic()
+        self.euclid_played = False
+        self.no_of_notes_pressed = 0
+        self.no_of_selects_pressed = 0
         
     def update(self):
         self.time = time.monotonic()
